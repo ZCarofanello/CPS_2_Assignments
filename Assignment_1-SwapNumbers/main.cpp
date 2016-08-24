@@ -12,7 +12,7 @@
 //
 // To Do List:
 // 1. Implement one more way without using third variable. - Done
-// 2. Add code for swapping other numeric data types other than integers such as float, double.
+// 2. Add code for swapping other numeric data types other than integers such as float, double. -Done
 // 3. Add Error checking (try, catch and finally)
 // 4. Make the program read input from file and write output to file.
 /////////////////////////////////////////////////////////////////////////
@@ -23,9 +23,13 @@
 
 using namespace std;
 
+//Overloading functions to allow for other data types
+int* SwappinNumbers (int Nums[]);
+double* SwappinNumbers (double Nums[]);
+float* SwappinNumbers (float Nums[]);
+
 int main() {
-    int x = 0;
-    int y = 0;
+    int Numbers[2];
     int input = 0;
 
     //Asking user to select to open a file or to input data
@@ -42,32 +46,55 @@ int main() {
     }
     cout << "You chose " << input << endl;
     cout << "Enter 1st value: ";
-    cin >> x;
+    cin >> Numbers[0];
     cout << "Enter 2nd value: ";
-    cin >> y;
+    cin >> Numbers[1];
     cout << "Values before swapping are:\n" << endl;
-    cout << "x: " << x << " y: " << y << endl;
+    cout << "x: " << Numbers[0] << " y: " << Numbers[1] << endl;
+
+
 
     // swapping using third variable
-    int temp = x;
-    x = y;
-    y = temp;
-    cout << "Values after swapping are:\n" << endl;
-    cout << "x: " << x << " y: " << y << endl;
+//    int temp = x;
+//    x = y;
+//    y = temp;
+//    cout << "Values after swapping are:\n" << endl;
+//    cout << "x: " << x << " y: " << y << endl;
 
     // swapping without third variable
-    x = x + y;
-    y = x - y;
-    x = x - y;
-    cout << "Values after swapping are:\n";
-    cout << "x: " << x << " y: " << y << endl;
+//    x = x + y;
+//    y = x - y;
+//    x = x - y;
+//    cout << "Values after swapping are:\n";
+//    cout << "x: " << x << " y: " << y << endl;
 
     // swapping another way without another variable
-    x ^= y;
-    y ^= x;
-    x ^= y;
-    cout << "Values after swapping are:\n";
-    cout << "x: " << x << " y: " << y << endl;
+//    x ^= y;
+//    y ^= x;
+//    x ^= y;
+//    cout << "Values after swapping are:\n";
+//    cout << "x: " << x << " y: " << y << endl;
 
     system("pause");
+}
+
+int* SwappinNumbers (int Nums[]){
+    Nums[0] = Nums[0] + Nums[1];
+    Nums[1] = Nums[0] - Nums[1];
+    Nums[0] = Nums[0] - Nums[1];
+    return Nums;
+}
+
+float* SwappinNumbers (float Nums[]){
+    Nums[0] = Nums[0] + Nums[1];
+    Nums[1] = Nums[0] - Nums[1];
+    Nums[0] = Nums[0] - Nums[1];
+    return Nums;
+}
+
+double* SwappinNumbers (double Nums[]){
+    Nums[0] = Nums[0] + Nums[1];
+    Nums[1] = Nums[0] - Nums[1];
+    Nums[0] = Nums[0] - Nums[1];
+    return Nums;
 }
