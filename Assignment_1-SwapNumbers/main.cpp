@@ -21,6 +21,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cctype>
 
 using namespace std;
 
@@ -124,26 +125,46 @@ double* SwappinNumbers (double Nums[]){
     Nums[0] = Nums[0] - Nums[1];
     return Nums;
 }
+
 /*
 string FileOpener (string UserInput) {
     string NumberRead;
     ofstream myfile;
     myfile.open (UserInput, ios::in);
     if (myfile.is_open()){
-        while(myfile)
+        while(myfile.good()){
+            getline(myfile,NumberRead)
+        }
     }
 }
- */
+*/
 
 Nums2Swap CheckTypes (string UnknownData){
 
     Nums2Swap SelectedData;
+    string::size_type sz;
     for(unsigned int i = 0; i < UnknownData.length(); i++){
         if(UnknownData.at(i) == '.'){
-            SelectedData.FloatNum = stof(UnknownData);
+            SelectedData.FloatNum = stof(UnknownData,&sz);
+            break;
         }
         else if(i+1 == UnknownData.length()){
-            SelectedData.IntNum = stoi(UnknownData);
+            SelectedData.IntNum = stoi(UnknownData,&sz);
         }
     }
+    return SelectedData;
+}
+
+bool CheckForGarbage (string DataIn){
+    bool isValidNumber = false;
+    for(int i = 0; i < DataIn.length(); i++){
+        if(isalnum(DataIn[i]) == false && DataIn[i] != '.'){
+            cout << "Not a valid number\n";
+            break;
+        }
+        else if (DataIn.length() == i){
+            isValidNumber = true;
+        }
+    }
+    return isValidNumber;
 }
