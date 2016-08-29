@@ -21,33 +21,18 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <cctype>
 
 using namespace std;
 
-union Nums2Swap {
-    int IntNum;
-    float FloatNum;
-};
-
-//Overloading functions to allow for other data types
-int* SwappinNumbers (int Nums[]);
-double* SwappinNumbers (double Nums[]);
-float* SwappinNumbers (float Nums[]);
+bool CheckForGarbage (string DataIn);
 
 //File I/O fucntions
 //string FileOpener (string FileName);
 //string FileCreation (string Filename);
 
-//Data Type Tester
-Nums2Swap CheckTypes (string UnknownData);
-
 int main() {
     //Initializing string to find input
     string User_Input = "";
-
-    //Data to hold number values
-    union Nums2Swap Number1, Number2;
 
     //Asking user to select to open a file or to input data
     cout << "Do you want to open a file or input values?\n";
@@ -72,11 +57,20 @@ int main() {
         case '2': {
             cout << "Enter 1st value: ";
             cin >> User_Input;
-            Number1 = CheckTypes(User_Input);
+            while(!CheckForGarbage(User_Input)){
+                cout << "Please enter a valid Number.\n";
+                cout << "Enter 1st value: ";
+                cin >> User_Input;
+            }
             cout << "Enter 2nd value: ";
             cin >> User_Input;
             Number2 = CheckTypes(User_Input);
+
+            //SwappinNumbers(Number1, Number2);
+            cout << "Values after swapping are:\n";
+            cout << "x: " << Number1.IntNum << " y: " << Number2.IntNum<< endl;
             break;
+
 
         }
     }
@@ -105,27 +99,6 @@ int main() {
     system("pause");
 }
 
-int* SwappinNumbers (int Nums[]){
-    Nums[0] = Nums[0] + Nums[1];
-    Nums[1] = Nums[0] - Nums[1];
-    Nums[0] = Nums[0] - Nums[1];
-    return Nums;
-}
-
-float* SwappinNumbers (float Nums[]){
-    Nums[0] = Nums[0] + Nums[1];
-    Nums[1] = Nums[0] - Nums[1];
-    Nums[0] = Nums[0] - Nums[1];
-    return Nums;
-}
-
-double* SwappinNumbers (double Nums[]){
-    Nums[0] = Nums[0] + Nums[1];
-    Nums[1] = Nums[0] - Nums[1];
-    Nums[0] = Nums[0] - Nums[1];
-    return Nums;
-}
-
 /*
 string FileOpener (string UserInput) {
     string NumberRead;
@@ -138,22 +111,6 @@ string FileOpener (string UserInput) {
     }
 }
 */
-
-Nums2Swap CheckTypes (string UnknownData){
-
-    Nums2Swap SelectedData;
-    string::size_type sz;
-    for(unsigned int i = 0; i < UnknownData.length(); i++){
-        if(UnknownData.at(i) == '.'){
-            SelectedData.FloatNum = stof(UnknownData,&sz);
-            break;
-        }
-        else if(i+1 == UnknownData.length()){
-            SelectedData.IntNum = stoi(UnknownData,&sz);
-        }
-    }
-    return SelectedData;
-}
 
 bool CheckForGarbage (string DataIn){
     bool isValidNumber = false;
