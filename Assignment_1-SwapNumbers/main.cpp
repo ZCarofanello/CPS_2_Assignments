@@ -24,15 +24,21 @@
 
 using namespace std;
 
-bool CheckForGarbage (string DataIn);
+class SwapNumbers {
+    int NumbersAreInts[2][100];
+    double NumbersAreDoubles[2][100];
+    string SplitData[2][100];
+    public:
+        bool CheckForGarbage (string RawData);
+        void TypeChecking (int DataPos);
+        void SplittingData (string RawData);
 
-//File I/O fucntions
-//string FileOpener (string FileName);
-//string FileCreation (string Filename);
+};
 
 int main() {
     //Initializing string to find input
     string User_Input = "";
+    SwapNumbers NumberSet1();
 
     //Asking user to select to open a file or to input data
     cout << "Do you want to open a file or input values?\n";
@@ -51,7 +57,6 @@ int main() {
         case '1': {
             cout << "What is the name of the file you're trying to open?\n";
             cin >> User_Input;
-            //FileOpener(User_Input);
             break;
         }
         case '2': {
@@ -71,6 +76,10 @@ int main() {
             cout << "x: " << Number1.IntNum << " y: " << Number2.IntNum<< endl;
             break;
 
+            //Default Case to catch cosmic ray interference or incredibly gifted users
+            default:
+                cout << "I really don't know how you got in here but this is awkward....\n";
+                exit(1);
 
         }
     }
@@ -112,16 +121,61 @@ string FileOpener (string UserInput) {
 }
 */
 
-bool CheckForGarbage (string DataIn){
+bool SwapNumbers::CheckForGarbage (string RawData){
     bool isValidNumber = false;
-    for(int i = 0; i < DataIn.length(); i++){
-        if(isalnum(DataIn[i]) == false && DataIn[i] != '.'){
+    for(int i = 0; i < RawData.length(); i++){
+        if(isalnum(RawData[i]) == 0 && RawData[i] != '.'){
             cout << "Not a valid number\n";
             break;
         }
-        else if (DataIn.length() == i){
-            isValidNumber = true;
+        else if (RawData.length() == i){
+            isValidNumber = 1;
         }
     }
     return isValidNumber;
+}
+
+void SwapNumbers::TypeChecking (int DataPos) {
+    string::size_type sz;
+    bool OneIsADouble = 0;
+    for (int j = 0; j < 2; j++) {
+        if(OneIsADouble){
+            NumbersAreDoubles[1][DataPos] = stod(SplitData[1][DataPos]);
+            NumbersAreDoubles[2][DataPos] = stod(SplitData[2][DataPos]);
+        }
+        else {
+            for (unsigned int i = 0; i < SplitData[j][DataPos].length(); i++) {
+                if (SplitData[j][DataPos].at(i) == '.') {
+                    NumbersAreDoubles[j][DataPos] = stod(SplitData[j][DataPos]);
+                    OneIsADouble = 1;
+                    break;
+                } else if (i + 1 == SplitData[j][DataPos].length()) {
+                    NumbersAreInts[j][DataPos] = stoi(SplitData[j][DataPos]);
+                }
+            }
+        }
+    }
+}
+template <typename Types>
+void SwapNumbers(Types NumbersToSwap[]){
+//swapping using third variable
+    Types temp = NumbersToSwap[1];
+    NumbersToSwap[1] = NumbersToSwap[2];
+    NumbersToSwap[2] = temp;
+    cout << "Values after swapping are:\n" << endl;
+    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
+
+    // swapping without third variable
+    NumbersToSwap[1] = NumbersToSwap[1] + NumbersToSwap[2];
+    NumbersToSwap[2] = NumbersToSwap[1] - NumbersToSwap[2];
+    NumbersToSwap[1] = NumbersToSwap[1] - NumbersToSwap[2];
+    cout << "Values after swapping are:\n";
+    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
+
+    // swapping another way without another variable
+    NumbersToSwap[1] ^= NumbersToSwap[2];
+    NumbersToSwap[2] ^= NumbersToSwap[1];
+    NumbersToSwap[1] ^= NumbersToSwap[2];
+    cout << "Values after swapping are:\n";
+    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
 }
