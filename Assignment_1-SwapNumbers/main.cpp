@@ -15,108 +15,111 @@
 // 2. Add code for swapping other numeric data types other than integers such as float, double. -Done
 // 3. Add Error checking (try, catch and finally)
 // 4. Make the program read input from file and write output to file.
-// 5. Add double type back in but it seems like a pain to tell difference
 /////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <fstream>
 #include <string>
-#include "Text_File_Encoder.h"
 
 using namespace std;
 
-struct NumberHolder
-
-class NumberManagement {
-    int NumbersAreInts[2];
-    double NumbersAreDoubles[2];
-    string SplitData[2];
-    string RawData;
-    public:
-        void TypeChecking ();
-        void SplittingData (string RawData);
-    template <typename Types>
-    void SwapNumbers(Types NumbersToSwap[]){
-        //swapping using third variable
-        Types temp = NumbersToSwap[1];
-        NumbersToSwap[1] = NumbersToSwap[2];
-        NumbersToSwap[2] = temp;
-        cout << "Values after swapping are:\n" << endl;
-        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
-
-        // swapping without third variable
-        NumbersToSwap[1] = NumbersToSwap[1] + NumbersToSwap[2];
-        NumbersToSwap[2] = NumbersToSwap[1] - NumbersToSwap[2];
-        NumbersToSwap[1] = NumbersToSwap[1] - NumbersToSwap[2];
-        cout << "Values after swapping are:\n";
-        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
-
-        // swapping another way without another variable
-        NumbersToSwap[1] ^= NumbersToSwap[2];
-        NumbersToSwap[2] ^= NumbersToSwap[1];
-        NumbersToSwap[1] ^= NumbersToSwap[2];
-        cout << "Values after swapping are:\n";
-        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
-    }
-        void InputRawData(string UserInput){
-            RawData = UserInput;
-        }
-        void InputSplitData(string UserInput, int Position){
-            SplitData[Position] = UserInput;
-        }
-};
+void SplittingData (string RawData, double UserInput[]);
 
 bool CheckForGarbage (string RawData);
 
-template <typename Types>
-void SwapNumbers(Types NumbersToSwap[]);
+string ReadWriteFromFile (string InFileName,string OutFileName, int Mode, double *UserData);
+
+void SwapNumbers(double NumbersToSwap[]);
 
 int main() {
     //Initializing string to find input
-    string User_Input = "";
-    NumberManagement NumberSet1;
+    string FileUserSelect, FileSaveSelect, User_Input, FileName;
+
+    //The variables I'm using for the operations
+    double JustSomeDubs[2] = {0,0};
+    int File_IO_Mode = 1;
 
     //Asking user to select to open a file or to input data
     cout << "Do you want to open a file or input values?\n";
     cout << "1. Open File\n2. Input Values\nPlease Enter 1 or 2: ";
-    cin >> User_Input;
+    cin >> FileUserSelect;
 
-    while(User_Input != "1" && User_Input != "2"){
+    while(FileUserSelect != "1" && FileUserSelect != "2"){
         cout << "\nPlease enter a valid input.\n\n";
         cout << "Do you want to open a file or input values?\n";
         cout << "1. Open File\n2. Input Values\nPlease Enter 1 or 2: ";
         cin.clear();
         cin.ignore();
-        cin >> User_Input;
+        cin >> FileUserSelect;
     }
-    switch (User_Input.at(0)) {
+
+    //Asking user to if they want to save a file
+    cout << "Do you want to open a file or input values?\n";
+    cout << "1. Save File\n2. Don't Save File\nPlease Enter 1 or 2: ";
+    cin >> FileSaveSelect;
+
+    while(FileSaveSelect != "1" && FileSaveSelect != "2"){
+        cout << "\nPlease enter a valid input.\n\n";
+        cout << "Do you want to open a file or input values?\n";
+        cout << "1. Open File\n2. Input Values\nPlease Enter 1 or 2: ";
+        cin.clear();
+        cin.ignore();
+        cin >> FileSaveSelect;
+    }
+    if(FileSaveSelect == "1") {
+        bool FileNameGood = true;
+        File_IO_Mode += 1;
+        do{
+            cout << "\nWhat do you want to name your file?\n\n";
+            cout << "Must be under 64 characters and not contain * . \" / \\ [ ] : ; | = ,\n";
+            cin >> FileName;
+            if(FileName.length() > 64){
+                FileNameGood = false;
+            }
+            else if (!FileName.find_first_of("*.\"/\\[]:;|=,")){
+                FileNameGood = false;
+            }
+            else{
+                FileNameGood = true;
+            }
+            }while(!FileNameGood);
+
+    }
+
+    switch (FileUserSelect.at(0)) {
         case '1': {
+            File_IO_Mode+= 1;
             cout << "What is the name of the file you're trying to open?\n";
             cin >> User_Input;
+            ReadWriteFromFile(User_Input,FileName,File_IO_Mode, JustSomeDubs);
             break;
         }
         case '2': {
             cout << "Enter 1st value: ";
             cin >> User_Input;
-            while(!CheckForGarbage(User_Input)){
+            while(CheckForGarbage(User_Input)){
                 cout << "Please enter a valid Number.\n";
                 cout << "Enter 1st value: ";
                 cin >> User_Input;
             }
-            NumberSet1.InputSplitData(User_Input,1);
+            JustSomeDubs[0] = stod(User_Input);
 
             cout << "Enter 2nd value: ";
             cin >> User_Input;
-            while(!CheckForGarbage(User_Input)){
+            while(CheckForGarbage(User_Input)){
                 cout << "Please enter a valid Number.\n";
                 cout << "Enter 2nd value: ";
                 cin >> User_Input;
             }
-            NumberSet1.InputSplitData(User_Input,2);
-            NumberSet1.SwapNumbers()
+            JustSomeDubs[1] = stod(User_Input);
 
-            //SwappinNumbers(Number1, Number2);
-          //  cout << "Values after swapping are:\n";
-          //  cout << "x: " << Number1.IntNum << " y: " << Number2.IntNum<< endl;
+            if(File_IO_Mode == 2){
+                ReadWriteFromFile("Not_Needed",FileName,File_IO_Mode,JustSomeDubs);
+            }
+            else {
+                SwapNumbers(JustSomeDubs);
+            }
+
             break;
 
             //Default Case to catch cosmic ray interference or incredibly gifted users
@@ -130,7 +133,20 @@ int main() {
     system("pause");
 }
 
+void SplittingData (string UserInput, double UserString[]){
+    string delimiter = " ";
+    size_t pos = 0;
+    string FoundNum;
+    int i = 0;
 
+    while ((pos = UserInput.find(delimiter)) != std::string::npos) {
+        FoundNum = UserInput.substr(0, pos);
+        UserString[i] = stod(FoundNum);
+        UserInput.erase(0, pos + delimiter.length());
+        i++;
+    }
+
+}
 
 bool CheckForGarbage (string RawData){
     bool isValidNumber = false;
@@ -146,23 +162,76 @@ bool CheckForGarbage (string RawData){
     return isValidNumber;
 }
 
-void NumberManagement::TypeChecking() {
-    bool OneIsADouble = 0;
-    for (int j = 0; j < 2; j++) {
-        if(OneIsADouble){
-            NumbersAreDoubles[1] = stod(SplitData[1]);
-            NumbersAreDoubles[2] = stod(SplitData[2]);
-        }
-        else {
-            for (unsigned int i = 0; i < SplitData[j].length(); i++) {
-                if (SplitData[j].at(i) == '.') {
-                    NumbersAreDoubles[j] = stod(SplitData[j]);
-                    OneIsADouble = 1;
+
+void SwapNumbers(double NumbersToSwap[]) {
+    //swapping using third variable
+    double temp = NumbersToSwap[0];
+    NumbersToSwap[0] = NumbersToSwap[1];
+    NumbersToSwap[1] = temp;
+    cout << "Values after the first swap are:\n" << endl;
+    cout << "x: " << NumbersToSwap[0] << " y: " << NumbersToSwap[1] << endl;
+
+    // swapping without third variable
+    NumbersToSwap[0] = NumbersToSwap[0] + NumbersToSwap[1];
+    NumbersToSwap[1] = NumbersToSwap[0] - NumbersToSwap[1];
+    NumbersToSwap[0] = NumbersToSwap[0] - NumbersToSwap[1];
+    cout << "Values after the second swap are:\n";
+    cout << "x: " << NumbersToSwap[0] << " y: " << NumbersToSwap[1] << endl;
+
+    // swapping another way without another variable
+    NumbersToSwap[0] = NumbersToSwap[0] * NumbersToSwap[1];
+    NumbersToSwap[1] = NumbersToSwap[0] / NumbersToSwap[1];
+    NumbersToSwap[0] = NumbersToSwap[0] / NumbersToSwap[1];
+    cout << "Values after the third swap are:\n";
+    cout << "x: " << NumbersToSwap[0] << " y: " << NumbersToSwap[1] << endl;
+}
+
+string ReadWriteFromFile (string InFileName, string OutFileName, int Mode, double UserInputData[]){
+    string ZeData;
+    double *ZeDubs;
+    ifstream Input;
+    ofstream Output;
+    switch (Mode){
+        case 1: {
+                Input.open(InFileName);
+                if(Input.is_open()){
+                    while(getline(Input,ZeData)){
+                         SplittingData(ZeData, ZeDubs);
+                        cout << "Values before swapping are:\n";
+                        cout << "x: " << ZeDubs[0] << " y: " << ZeDubs[1] << endl;
+                        SwapNumbers(ZeDubs);
+                    }
                     break;
-                } else if (i + 1 == SplitData[j].length()) {
-                    NumbersAreInts[j] = stoi(SplitData[j]);
+                }
+        }
+        case 2: {
+            Output.open(OutFileName);
+            //Since I only allow for one data entry in the user input I can get away with this
+            if(Output.is_open()){
+                SwapNumbers(UserInputData);
+                Output << UserInputData[0] << " " << UserInputData[1] << endl;
+            }
+            break;
+        }
+        case 3:{
+            Output.open(OutFileName);
+            Input.open(InFileName);
+            if(Input.is_open() && Output.is_open()){
+                while(getline(Input,ZeData)){
+                    SplittingData(ZeData, ZeDubs);
+                    cout << "Values before swapping are:\n";
+                    cout << "x: " << ZeDubs[0] << " y: " << ZeDubs[1] << endl;
+                    SwapNumbers(ZeDubs);
+                    Output << ZeDubs[0] << " " << ZeDubs[1] << endl;
                 }
             }
+            break;
+        }
+        default: {
+            cout << "I really don't know how you got in here but this is awkward....\n";
+            exit(1);
         }
     }
+    Input.close();
+    Output.close();
 }
