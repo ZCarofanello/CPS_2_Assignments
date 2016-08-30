@@ -20,25 +20,60 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
+#include "Text_File_Encoder.h"
 
 using namespace std;
 
-class SwapNumbers {
-    int NumbersAreInts[2][100];
-    double NumbersAreDoubles[2][100];
-    string SplitData[2][100];
-    public:
-        bool CheckForGarbage (string RawData);
-        void TypeChecking (int DataPos);
-        void SplittingData (string RawData);
+struct NumberHolder
 
+class NumberManagement {
+    int NumbersAreInts[2];
+    double NumbersAreDoubles[2];
+    string SplitData[2];
+    string RawData;
+    public:
+        void TypeChecking ();
+        void SplittingData (string RawData);
+    template <typename Types>
+    void SwapNumbers(Types NumbersToSwap[]){
+        //swapping using third variable
+        Types temp = NumbersToSwap[1];
+        NumbersToSwap[1] = NumbersToSwap[2];
+        NumbersToSwap[2] = temp;
+        cout << "Values after swapping are:\n" << endl;
+        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
+
+        // swapping without third variable
+        NumbersToSwap[1] = NumbersToSwap[1] + NumbersToSwap[2];
+        NumbersToSwap[2] = NumbersToSwap[1] - NumbersToSwap[2];
+        NumbersToSwap[1] = NumbersToSwap[1] - NumbersToSwap[2];
+        cout << "Values after swapping are:\n";
+        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
+
+        // swapping another way without another variable
+        NumbersToSwap[1] ^= NumbersToSwap[2];
+        NumbersToSwap[2] ^= NumbersToSwap[1];
+        NumbersToSwap[1] ^= NumbersToSwap[2];
+        cout << "Values after swapping are:\n";
+        cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
+    }
+        void InputRawData(string UserInput){
+            RawData = UserInput;
+        }
+        void InputSplitData(string UserInput, int Position){
+            SplitData[Position] = UserInput;
+        }
 };
+
+bool CheckForGarbage (string RawData);
+
+template <typename Types>
+void SwapNumbers(Types NumbersToSwap[]);
 
 int main() {
     //Initializing string to find input
     string User_Input = "";
-    SwapNumbers NumberSet1();
+    NumberManagement NumberSet1;
 
     //Asking user to select to open a file or to input data
     cout << "Do you want to open a file or input values?\n";
@@ -67,13 +102,21 @@ int main() {
                 cout << "Enter 1st value: ";
                 cin >> User_Input;
             }
+            NumberSet1.InputSplitData(User_Input,1);
+
             cout << "Enter 2nd value: ";
             cin >> User_Input;
-            Number2 = CheckTypes(User_Input);
+            while(!CheckForGarbage(User_Input)){
+                cout << "Please enter a valid Number.\n";
+                cout << "Enter 2nd value: ";
+                cin >> User_Input;
+            }
+            NumberSet1.InputSplitData(User_Input,2);
+            NumberSet1.SwapNumbers()
 
             //SwappinNumbers(Number1, Number2);
-            cout << "Values after swapping are:\n";
-            cout << "x: " << Number1.IntNum << " y: " << Number2.IntNum<< endl;
+          //  cout << "Values after swapping are:\n";
+          //  cout << "x: " << Number1.IntNum << " y: " << Number2.IntNum<< endl;
             break;
 
             //Default Case to catch cosmic ray interference or incredibly gifted users
@@ -84,44 +127,12 @@ int main() {
         }
     }
 
-    // swapping using third variable
-//    int temp = x;
-//    x = y;
-//    y = temp;
-//    cout << "Values after swapping are:\n" << endl;
-//    cout << "x: " << x << " y: " << y << endl;
-
-    // swapping without third variable
-//    x = x + y;
-//    y = x - y;
-//    x = x - y;
-//    cout << "Values after swapping are:\n";
-//    cout << "x: " << x << " y: " << y << endl;
-
-    // swapping another way without another variable
-//    x ^= y;
-//    y ^= x;
-//    x ^= y;
-//    cout << "Values after swapping are:\n";
-//    cout << "x: " << x << " y: " << y << endl;
-
     system("pause");
 }
 
-/*
-string FileOpener (string UserInput) {
-    string NumberRead;
-    ofstream myfile;
-    myfile.open (UserInput, ios::in);
-    if (myfile.is_open()){
-        while(myfile.good()){
-            getline(myfile,NumberRead)
-        }
-    }
-}
-*/
 
-bool SwapNumbers::CheckForGarbage (string RawData){
+
+bool CheckForGarbage (string RawData){
     bool isValidNumber = false;
     for(int i = 0; i < RawData.length(); i++){
         if(isalnum(RawData[i]) == 0 && RawData[i] != '.'){
@@ -135,47 +146,23 @@ bool SwapNumbers::CheckForGarbage (string RawData){
     return isValidNumber;
 }
 
-void SwapNumbers::TypeChecking (int DataPos) {
-    string::size_type sz;
+void NumberManagement::TypeChecking() {
     bool OneIsADouble = 0;
     for (int j = 0; j < 2; j++) {
         if(OneIsADouble){
-            NumbersAreDoubles[1][DataPos] = stod(SplitData[1][DataPos]);
-            NumbersAreDoubles[2][DataPos] = stod(SplitData[2][DataPos]);
+            NumbersAreDoubles[1] = stod(SplitData[1]);
+            NumbersAreDoubles[2] = stod(SplitData[2]);
         }
         else {
-            for (unsigned int i = 0; i < SplitData[j][DataPos].length(); i++) {
-                if (SplitData[j][DataPos].at(i) == '.') {
-                    NumbersAreDoubles[j][DataPos] = stod(SplitData[j][DataPos]);
+            for (unsigned int i = 0; i < SplitData[j].length(); i++) {
+                if (SplitData[j].at(i) == '.') {
+                    NumbersAreDoubles[j] = stod(SplitData[j]);
                     OneIsADouble = 1;
                     break;
-                } else if (i + 1 == SplitData[j][DataPos].length()) {
-                    NumbersAreInts[j][DataPos] = stoi(SplitData[j][DataPos]);
+                } else if (i + 1 == SplitData[j].length()) {
+                    NumbersAreInts[j] = stoi(SplitData[j]);
                 }
             }
         }
     }
-}
-template <typename Types>
-void SwapNumbers(Types NumbersToSwap[]){
-//swapping using third variable
-    Types temp = NumbersToSwap[1];
-    NumbersToSwap[1] = NumbersToSwap[2];
-    NumbersToSwap[2] = temp;
-    cout << "Values after swapping are:\n" << endl;
-    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
-
-    // swapping without third variable
-    NumbersToSwap[1] = NumbersToSwap[1] + NumbersToSwap[2];
-    NumbersToSwap[2] = NumbersToSwap[1] - NumbersToSwap[2];
-    NumbersToSwap[1] = NumbersToSwap[1] - NumbersToSwap[2];
-    cout << "Values after swapping are:\n";
-    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
-
-    // swapping another way without another variable
-    NumbersToSwap[1] ^= NumbersToSwap[2];
-    NumbersToSwap[2] ^= NumbersToSwap[1];
-    NumbersToSwap[1] ^= NumbersToSwap[2];
-    cout << "Values after swapping are:\n";
-    cout << "x: " << NumbersToSwap[1] << " y: " << NumbersToSwap[2] << endl;
 }
