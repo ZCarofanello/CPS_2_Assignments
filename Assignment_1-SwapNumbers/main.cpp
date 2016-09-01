@@ -114,7 +114,8 @@ int main() {
             JustSomeDubs[1] = stod(User_Input);
 
             if(File_IO_Mode == 2){
-                ReadWriteFromFile("Not_Needed",FileName,File_IO_Mode,JustSomeDubs);
+                string JustTryingSomething = "Not_Used";
+                ReadWriteFromFile(JustTryingSomething,FileName,File_IO_Mode,JustSomeDubs);
             }
             else {
                 SwapNumbers(JustSomeDubs);
@@ -188,7 +189,7 @@ void SwapNumbers(double NumbersToSwap[]) {
 
 string ReadWriteFromFile (string InFileName, string OutFileName, int Mode, double UserInputData[]){
     string ZeData;
-    double *ZeDubs;
+    double ZeDubs[2];
     ifstream Input;
     ofstream Output;
     switch (Mode){
