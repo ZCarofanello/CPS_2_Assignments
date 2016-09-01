@@ -25,7 +25,10 @@ public:
 private:
     int TotalFraction[2];
 
-//    void Simplify();
+    void Simplify();
+
+    int GCD(int Fraction[]);
+
 
 //    void CheckForOverflow();
 

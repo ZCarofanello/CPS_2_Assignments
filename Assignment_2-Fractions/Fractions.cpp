@@ -59,3 +59,18 @@ void Fraction::reciprocal (void) {
     TotalFraction[0] = TotalFraction[1];
     TotalFraction[1] = holding_variable;
 }
+
+void Fraction::Simplify(void){
+
+}
+
+//Fix this
+int Fraction::GCD() {
+    int t;
+    while (TotalFraction[1] != 0) {
+        t = TotalFraction[1];
+        TotalFraction[1] = TotalFraction[0] % TotalFraction[1];
+        TotalFraction[0] = t;
+    }
+    return TotalFraction[0];
+}
