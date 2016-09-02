@@ -2,11 +2,12 @@
 // Created by Zack on 8/30/2016.
 //
 #include "Fractions.h"
-#include <iostream>
+#include <string>
 
-void Fraction::SetValues() {
+Fraction::Fraction(){
     TotalFraction[0] = 0;
     TotalFraction[1] = 1;
+    Whole_Number = 0;
 }
 
 void Fraction::SetValues(int Numerator, int Denominator) {
@@ -19,9 +20,21 @@ void Fraction::SetValues(int Numerator) {
     TotalFraction[1] = 1;
 }
 
-void Fraction::display() {
-    //Fraction::Simplify();
-    std::cout << TotalFraction[0] << "/" << TotalFraction[1];
+Fraction::~Fraction(void)
+{
+}
+
+std::string Fraction::ToString(void)
+{
+    Simplify();
+    char x[10];
+    snprintf(x,10,"%d",TotalFraction[0]);
+    char y[10];
+    snprintf(y,10,"%d",TotalFraction[1]);
+    std::string z = x;
+    z += "/";
+    z += y;
+    return z;
 }
 
 Fraction Fraction::operator+(const Fraction &other) {
@@ -60,17 +73,25 @@ void Fraction::reciprocal (void) {
     TotalFraction[1] = holding_variable;
 }
 
-void Fraction::Simplify(void){
+int Fraction::RoundUpToInt (void){
 
 }
 
-//Fix this
+void Fraction::Simplify(void){
+    int d = GCD();
+    TotalFraction[0] /= d;
+    TotalFraction[1] /= d;
+}
+
 int Fraction::GCD() {
-    int t;
-    while (TotalFraction[1] != 0) {
-        t = TotalFraction[1];
-        TotalFraction[1] = TotalFraction[0] % TotalFraction[1];
-        TotalFraction[0] = t;
+    int big = abs(TotalFraction[0]);
+    int small = abs(TotalFraction[1]);
+    int remainder = big % small;
+    while (remainder != 0)
+    {
+        big = small;
+        small = remainder;
+        remainder = big % small;
     }
-    return TotalFraction[0];
+    return small;
 }

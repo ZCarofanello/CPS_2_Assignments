@@ -26,25 +26,25 @@ int main() {
     Frac2.SetValues(1,3);
 
     std::cout << "fraction 1 is: ";
-    Frac1.display();
+    std::cout << Frac1.ToString() << std::endl;
     std::cout << "\n\nfraction 2 is: ";
-    Frac2.display();
+    std::cout << Frac2.ToString() << std::endl;
 
     std::cout << "\n\nThe sum of fraction 1 and 2 is: ";
     Result = Frac1 + Frac2;
-    Result.display();
+    std::cout << Result.ToString() << std::endl;
 
     std::cout << "\n\nThe difference of fraction 1 and 2 is: ";
     Result = Frac1 - Frac2;
-    Result.display();
+    std::cout << Result.ToString() << std::endl;
 
     std::cout << "\n\nThe product of fraction 1 and 2 is: ";
     Result = Frac1 * Frac2;
-    Result.display();
+    std::cout << Result.ToString() << std::endl;
 
     std::cout << "\n\nThe quotient of fraction 1 and 2 is: ";
     Result = Frac1 / Frac2;
-    Result.display();
+    std::cout << Result.ToString() << std::endl;
     std::cout << "\n";
     system("pause");
 

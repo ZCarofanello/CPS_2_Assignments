@@ -5,15 +5,18 @@
 #ifndef ASSIGNMENT_2_FRACTIONS_FRACTIONS_H
 #define ASSIGNMENT_2_FRACTIONS_FRACTIONS_H
 
+#include <string>
+
 class Fraction{
 public:
-    //All these overloaded inputs
+    //Constructors
+    Fraction();
     void SetValues (int Numerator, int Denominator);
     void SetValues (int Numerator);
-    void SetValues (void);
+    ~Fraction(void);
 
     //Getting the Data Out
-    void display (void);
+    std::string ToString (void);
 
     //Data Manipulation
     Fraction operator+ (const Fraction& other);
@@ -22,12 +25,16 @@ public:
     Fraction operator- (const Fraction& other);
     void reciprocal (void);
 
+    //Rounding Functions
+    int RoundUpToInt(void);
+
 private:
     int TotalFraction[2];
+    int Whole_Number;
 
     void Simplify();
 
-    int GCD(int Fraction[]);
+    int GCD(void);
 
 
 //    void CheckForOverflow();
