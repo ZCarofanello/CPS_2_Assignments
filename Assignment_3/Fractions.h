@@ -1,11 +1,21 @@
+/////////////////////////////////////////////////////////////////////////
+// Title: Assignment 3 - Fractions
+// Author: Zachary Carofanello
+// CPET-321 Computational Problem Solving II Fall 2016
+// Platform: CLion 2016.2.1
+// Description: Header for Fraction class
 //
-// Created by Glados on 8/30/2016.
+// Revisions:
+// Revision 1.0 29/08/2016
 //
+// To Do List:
+/////////////////////////////////////////////////////////////////////////
 
 #ifndef ASSIGNMENT_2_FRACTIONS_FRACTIONS_H
 #define ASSIGNMENT_2_FRACTIONS_FRACTIONS_H
 
 #include <string>
+#include <vector>
 
 class Fraction{
 public:
@@ -14,6 +24,7 @@ public:
     void SetValues (int Numerator, int Denominator);
     void SetValues (int Numerator);
     ~Fraction(void);
+    //static void Add2Vector (std::vector MyVect, int Numerator, int Denominator);
 
     //Getting the Data Out
     std::string ToString (void);
@@ -32,10 +43,11 @@ public:
     int RoundUp(void);
     int RoundDown(void);
 
-    int TotalFraction[2];
     void Simplify();
 
 private:
+    //Holds the numerator in the first cell and denominator in second
+    int TotalFraction[2];
 
     int GCD(void);
 

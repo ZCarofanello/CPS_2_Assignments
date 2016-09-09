@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////
-// Title: Assignment 2 - Fractions
+// Title: Assignment 3 - Fractions
 // Author: Zachary Carofanello
 // CPET-321 Computational Problem Solving II Fall 2016
 // Platform: CLion 2016.2.1
@@ -9,11 +9,11 @@
 // Revision 1.0 29/08/2016
 //
 // To Do List:
-// 1. Add rounding up
-// 2. Add rounding down
-// 3. Calculate integer power
-// 4. File I/O
-// 5. add output and improve output clarity
+// 1. Add rounding up -Done
+// 2. Add rounding down - Done
+// 3. Calculate integer power - Done
+// 4. File I/O - Done
+// 5. add output and improve output clarity - Done
 /////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -46,8 +46,10 @@ int main() {
     }
     Input.close();
 
-    for (int i = 0; (i + 1) < FractionVector.size(); i++){
-        if (Fraction::Compare(FractionVector[i],FractionVector[i+1])){
+    Max = FractionVector[0];
+    //Iterates through the vector and checks if the current fraction less than the next one
+    for (int i = 1; i < FractionVector.size(); i++){
+        if (Fraction::Compare(FractionVector[i],Max)){
             Max = FractionVector[i];
     }
         else{
@@ -76,7 +78,6 @@ void SplittingData (string UserInput, int UserString[]){
         UserInput.erase(0, pos + delimiter.length());
         i++;
     }
-
 }
 
 bool CheckForGarbage (string RawData){

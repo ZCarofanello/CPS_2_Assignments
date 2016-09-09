@@ -1,4 +1,4 @@
-// fraction.cpp
+s// fraction.cpp
 #include "fraction.h"
 
 CFraction::CFraction(int numerator, int denominator)

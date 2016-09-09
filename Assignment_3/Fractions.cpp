@@ -1,6 +1,14 @@
+/////////////////////////////////////////////////////////////////////////
+// Title: Assignment 3 - Fractions
+// Author: Zachary Carofanello
+// CPET-321 Computational Problem Solving II Fall 2016
+// Platform: CLion 2016.2.1
+// Description: Fractions class methods
 //
-// Created by Zack on 8/30/2016.
+// Revisions:
+// Revision 1.0 29/08/2016
 //
+/////////////////////////////////////////////////////////////////////////
 #include "Fractions.h"
 #include <string>
 
@@ -108,11 +116,13 @@ void Fraction::IntegerPower (int Power){
     }
 }
 
+//Checks if the first fraction is larger than the second
 bool Fraction::Compare(Fraction First, Fraction Second) {
-    int FirstDenominator = First.TotalFraction[1], SecondDenominator = Second.TotalFraction[1];
-    First.TotalFraction[0] *= SecondDenominator;
-    Second.TotalFraction[0] *= FirstDenominator;
+    //Multiplies the numerators by the other denominator
+    First.TotalFraction[0] *= Second.TotalFraction[1];
+    Second.TotalFraction[0] *= First.TotalFraction[1];
 
+    //Checks if the first fraction is greater the second
     if(First.TotalFraction[0] > Second.TotalFraction[0]){
         return 1;
     }
@@ -120,12 +130,14 @@ bool Fraction::Compare(Fraction First, Fraction Second) {
         return 0;
 }
 
+//Simplifies the Fraction using gcd
 void Fraction::Simplify(void){
     int d = GCD();
     TotalFraction[0] = TotalFraction[0]/  d;
     TotalFraction[1] = TotalFraction[1]/  d;
 }
 
+//Simple GCD function
 int Fraction::GCD() {
     int big = abs(TotalFraction[0]);
     int small = abs(TotalFraction[1]);
