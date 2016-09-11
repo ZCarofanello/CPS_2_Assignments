@@ -9,17 +9,18 @@
 // Revision 1.0 10/09/2016
 //
 // To Do List:
-// 1. Add rounding up -Done
-// 2. Add rounding down - Done
-// 3. Calculate integer power - Done
-// 4. File I/O - Done
-// 5. add output and improve output clarity - Done
+// 1. Create a sorting method
+// 2. Code the search methods
+// 3. Finish the Metrics Class
+// 4. Create a way to compare the operations between reals and
+//    the fraction way.
 /////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include "Fractions.h"
+#include "Metrics.h"
 
 using namespace std;
 
@@ -33,18 +34,25 @@ int LinearSearch (int Number2Find);
 
 int main() {
     vector<Fraction> FractionVector;
-    Fraction Max;
+    vector<double> DoubleVector;
+
 
     string ZeData;
     ifstream Input;
+
     Fraction Frac;
+    double ZeDouble;
     int ReadData[2];
 
     Input.open("Numbs.txt");
     if (Input.is_open()) {
         while (getline(Input, ZeData)) {
             SplittingData(ZeData, ReadData);
+
             Frac.SetValues(ReadData[0], ReadData[1]);
+            ZeDouble = double(ReadData[0]) / double(ReadData[1]);
+
+            DoubleVector.push_back(ZeDouble);
             FractionVector.push_back(Frac);
         }
     }
@@ -83,10 +91,11 @@ bool CheckForGarbage (string RawData){
     }
     return isValidNumber;
 }
-
+/*
 int BinarySearch (int Number2Find) {
 
 }
 int LinearSearch (int Number2Find, ){
 
 }
+ */

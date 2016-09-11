@@ -17,10 +17,17 @@ Fraction::Fraction(){
     TotalFraction[1] = 1;
 }
 
-void Fraction::SetValues(int Numerator, int Denominator) {
-    TotalFraction[0] = Numerator;
-    TotalFraction[1] = Denominator;
-    Simplify();
+void Fraction::SetValues(int Numerator, int Denominator){
+    if(Denominator != 0) {
+        TotalFraction[0] = Numerator;
+        TotalFraction[1] = Denominator;
+        Simplify();
+    }
+    else{
+        //Oops not a valid fraction
+        TotalFraction[0] = 0;
+        TotalFraction[1] = 1;
+    }
 }
 
 void Fraction::SetValues(int Numerator) {

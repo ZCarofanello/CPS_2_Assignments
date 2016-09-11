@@ -19,8 +19,13 @@ public:
 
 
 private:
-    std::clock_t start, end;
-    double cpu_time_used;
+    double startTimeInMicroSec;                 // starting time in micro-second
+    double endTimeInMicroSec;                   // ending time in micro-second
+    //int    stopped;                             // stop flag
+
+    LARGE_INTEGER frequency;                    // ticks per second
+    LARGE_INTEGER startCount;                   //
+    LARGE_INTEGER endCount;                     //
 };
 
 #endif //ASSIGNMENT_4_METRICS_H
