@@ -6,22 +6,25 @@
 #define ASSIGNMENT_4_METRICS_H
 
 #include <ctime>
+#include <windows.h>
 
 class Metric_Check{
 public:
     Metric_Check();
     ~Metric_Check();
 
+    void ResetTimer (void);
+
     void StartTimer(void);
     void StopTimer(void);
 
-    int ReturnTime (void);
+    double ReturnTime (void);
 
 
 private:
     double startTimeInMicroSec;                 // starting time in micro-second
     double endTimeInMicroSec;                   // ending time in micro-second
-    //int    stopped;                             // stop flag
+    int    stopped;                             // stop flag
 
     LARGE_INTEGER frequency;                    // ticks per second
     LARGE_INTEGER startCount;                   //
