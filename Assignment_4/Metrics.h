@@ -1,6 +1,14 @@
+/////////////////////////////////////////////////////////////////////////
+// Title: Assignment 4 - Fractions and Efficiency Metrics
+// Author: Zachary Carofanello
+// CPET-321 Computational Problem Solving II Fall 2016
+// Platform: CLion 2016.2.1
+// Description: Working with fractions held as integers
 //
-// Created by Glados on 9/10/2016.
+// Revisions:
+// Revision 1.0 10/09/2016
 //
+/////////////////////////////////////////////////////////////////////////
 
 #ifndef ASSIGNMENT_4_METRICS_H
 #define ASSIGNMENT_4_METRICS_H
@@ -22,13 +30,13 @@ public:
 
 
 private:
-    double startTimeInMicroSec;                 // starting time in micro-second
-    double endTimeInMicroSec;                   // ending time in micro-second
-    int    stopped;                             // stop flag
+    double startTime_us; // start time in us
+    double endTime_us;   // end time in us
+    int    stop;         // stop flag
 
-    LARGE_INTEGER frequency;                    // ticks per second
-    LARGE_INTEGER startCount;                   //
-    LARGE_INTEGER endCount;                     //
+    LARGE_INTEGER frequency;
+    LARGE_INTEGER startCount;
+    LARGE_INTEGER endCount;
 };
 
 #endif //ASSIGNMENT_4_METRICS_H

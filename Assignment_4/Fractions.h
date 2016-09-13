@@ -8,7 +8,6 @@
 // Revisions:
 // Revision 1.0 29/08/2016
 //
-// To Do List:
 /////////////////////////////////////////////////////////////////////////
 
 #ifndef ASSIGNMENT_2_FRACTIONS_FRACTIONS_H
