@@ -38,6 +38,9 @@ struct DumbInts {
 template<typename Types>
 vector<DataPoints> Speed_Testing (vector<Types> DataVector, vector<DataPoints> DataReturn);
 
+template<typename DataType>
+DataPoints SearchTest (DataType Number2Find, vector<DataType> ListToSearch, int SearchMethod);
+
 void SplittingData (string UserInput, int UserString[]);
 
 int BinarySearch (int Number2Find);
@@ -47,7 +50,107 @@ int main() {
     vector<Fraction> FractionVector;
     vector<double> DoubleVector;
     vector<DumbInts> IntVector;
-    vector<DataPoints> RealsOperations, FractionOperations, IntegerOperations;
+    vector<DataPoints> RealsOperations, FractionOperations, IntegerOperations, SearchOperations;
+    vector<int> SortedList = {13
+            ,16
+            ,25
+            ,28
+            ,32
+            ,36
+            ,40
+            ,72
+            ,105
+            ,107
+            ,111
+            ,112
+            ,118
+            ,136
+            ,139
+            ,196
+            ,213
+            ,220
+            ,223
+            ,229
+            ,241
+            ,259
+            ,292
+            ,301
+            ,303
+            ,325
+            ,328
+            ,340
+            ,342
+            ,422
+            ,429
+            ,431
+            ,441
+            ,446
+            ,450
+            ,468
+            ,488
+            ,501
+            ,505
+            ,551
+            ,567
+            ,568
+            ,575
+            ,584
+            ,597
+            ,598
+            ,599
+            ,608
+            ,617
+            ,618
+            ,635
+            ,636
+            ,640
+            ,650
+            ,652
+            ,658
+            ,662
+            ,664
+            ,665
+            ,678
+            ,688
+            ,689
+            ,695
+            ,698
+            ,699
+            ,718
+            ,727
+            ,734
+            ,742
+            ,747
+            ,751
+            ,752
+            ,759
+            ,764
+            ,773
+            ,774
+            ,779
+            ,780
+            ,785
+            ,787
+            ,791
+            ,792
+            ,794
+            ,798
+            ,802
+            ,823
+            ,836
+            ,837
+            ,847
+            ,848
+            ,877
+            ,885
+            ,890
+            ,920
+            ,921
+            ,932
+            ,946
+            ,958
+            ,964
+            ,989};
 
     string Operations[4] = {"Addition", "Subtraction", "Multiplication", "Division"};
 
@@ -123,6 +226,9 @@ int main() {
         ZeTimer.ResetTimer();
     }
 
+    SearchOperations.push_back(SearchTest(551,SortedList,1));
+    SearchOperations.push_back(SearchTest(551,SortedList,2));
+
     int NumberWidth = 8;
     int NumPrecision = 3;
     int NameWidth = 14;
@@ -136,6 +242,13 @@ int main() {
         cout << internal << setprecision(NumPrecision)<< setw(NumberWidth) << setfill(' ') << IntegerOperations[i].TimeTaken << " us";
         cout << endl;
     }
+    cout << endl;
+    cout << left << "  Operation   | Binary   |  Linear  |\n";
+    cout << left << "--------------|----------|----------|\n";
+    cout << left << setw(NameWidth) << setfill(' ') << "Search" << endl;
+    cout << internal << setprecision(NumPrecision)<< setw(NumberWidth) << setfill(' ') << SearchOperations[0].TimeTaken << " us";
+    cout << internal << setprecision(NumPrecision)<< setw(NumberWidth) << setfill(' ') << SearchOperations[1].TimeTaken << " us";
+    cout << endl;
 
     system("pause");
 }
@@ -153,14 +266,51 @@ void SplittingData (string UserInput, int UserString[]){
         i++;
     }
 }
-/*
-int BinarySearch (int Number2Find) {
 
-}
-int LinearSearch (int Number2Find, ){
+template<typename DataType>
+DataPoints SearchTest (DataType Number2Find, vector<DataType> ListToSearch, int SearchMethod){
+    Metric_Check TheTimer;
+    DataPoints Holder;
+    switch(SearchMethod){
+        case 1: {
+            for (int i = 0; i < ListToSearch.size(); i++) {
+                TheTimer.StartTimer();
+                if (Number2Find == ListToSearch[i]) {
+                    TheTimer.StopTimer();
+                    break;
+                }
+            }
+            Holder.Operation = "Linear_Search";
+            break;
+        }
+        case 2:{
+            int low = 0;
+            int high = ListToSearch.size() -1;
 
+            TheTimer.StartTimer();
+            while(low <= high) {
+                int mid = (low+high)/2;
+
+                if(Number2Find < ListToSearch[mid])
+                    high = mid - 1;
+                else if(Number2Find > ListToSearch[mid])
+                    low = mid + 1;
+                else {
+                    TheTimer.StopTimer();
+                    break;
+                }
+            }
+            Holder.Operation = "Binary_Search";
+            break;
+            }
+        default:{
+            cerr << "Oops you didn't set this up correctly!\n";
+        }
+    }
+    Holder.TimeTaken = TheTimer.ReturnTime();
+    return Holder;
 }
- */
+
 template<typename Types>
 vector<DataPoints> Speed_Testing (vector<Types> DataVector, vector<DataPoints> DataReturn) {
     Metric_Check ZeTimer;
