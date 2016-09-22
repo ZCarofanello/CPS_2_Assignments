@@ -15,16 +15,77 @@
 //
 /////////////////////////////////////////////////////////////////////////
 #include <iostream>
+#include <cstdlib>
+#include <cmath>
+#include <vector>
+#include "metrics.h"
+
+using namespace std;
+
+struct DataPoints {
+    std::string Operation;
+    double TimeTaken;
+};
+
+
 
 int * OddAndEvenCount (int Number2Check);
 int AlienHandsIter (int NumberOfSeats);
 int AlienHandsRec (int NumberOfSeats);
+bool ArrayChecking (int Array[][4], int Size);
 
 int main() {
-    int UserNum;
-    std::cout << "How many seats are there?" << std::endl;
-    std::cin >> UserNum;
-    std::cout << "The number of hands in a row " << UserNum << " seats long is " << AlienHandsRec(UserNum) << std::endl;
+    int max_data_set = 10000;
+
+    vector<DataPoints> AlienRec, AlienIter;
+    vector<int> TestData;
+    DataPoints Holder;
+    Metric_Check ZeTimer;
+
+    int NumArray[][4] = { 1, 2, 3, 4,
+                          2, 1, 2, 3,
+                          3, 2, 1, 2,
+                          4, 3, 2, 1};
+    if(ArrayChecking(NumArray, 4)){
+        cout << "It's Symmetrical!\n";
+    }
+    else
+        cout << "It's not Symmetrical\n";
+
+    for(int i = 0; i <= max_data_set; i++)
+        TestData.push_back(rand() % (2*max_data_set));
+
+    for(int k=0; k < 2; k++) {
+        for (int i = 0; i < 3; i++) {
+            int Data_Set_Size = pow(10,i+2);
+            int IntHolder;
+            ZeTimer.StartTimer();
+            for (int j = 0; j < (Data_Set_Size-1); j++) {
+                if(k == 0)
+                    IntHolder = AlienHandsIter(TestData[j]);
+                else
+                    IntHolder = AlienHandsRec(TestData[j]);
+            }
+            ZeTimer.StopTimer();
+            if (k == 0) {
+                Holder.Operation = "Iterative";
+                Holder.TimeTaken = ZeTimer.ReturnTime();
+                AlienIter.push_back(Holder);
+            }
+            else {
+                Holder.Operation = "Recursve";
+                Holder.TimeTaken = ZeTimer.ReturnTime();
+                AlienRec.push_back(Holder);
+            }
+            ZeTimer.ResetTimer();
+        }
+    }
+
+    for(int i = 0; i < 3; i++){
+        cout << AlienIter[i].Operation << " " << AlienIter[i].TimeTaken << endl;
+        cout << AlienRec[i].Operation << " " << AlienRec[i].TimeTaken << endl;
+    }
+
     system("Pause");
     return 0;
 }
@@ -62,4 +123,23 @@ int * OddAndEvenCount (int Number2Check){
         }
     }
     return OddAndEven;
+}
+
+bool ArrayChecking (int Array[][4], int Size){
+    if(Size == 1)
+        return true;
+    else{
+        bool KeepGoin = false;
+        for(int i = 0; i < (Size - 1); i++){
+            if(Array[Size - 1][i] != Array[i][Size - 1]){
+                KeepGoin = false;
+            }
+            else
+                KeepGoin = true;
+            }
+            if (KeepGoin)
+                ArrayChecking(Array, Size-1);
+            else
+                return  false;
+        }
 }
