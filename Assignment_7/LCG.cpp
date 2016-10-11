@@ -5,22 +5,21 @@
 #include "LCG.h"
 #include <cmath>
 
-LCG::LCG(int Seed, int Multiplier, int Increment, int Modulus) {
+LCG::LCG() {
+    seed = 0;
+    multiplier = 0;
+    increment = 0;
+    modulus = 0;
+}
+
+LCG::~LCG() {}
+
+void LCG::SetValues(int Seed, int Multiplier, int Increment, int Modulus) {
     seed = Seed;
     multiplier = Multiplier;
     increment = Increment;
     modulus = Modulus;
 }
-/*
-LCG::LCG(int Seed, int Multiplier) {
-    seed = Seed;
-    multiplier = Multiplier;
-    increment = 0;//something
-    modulus = 0; //something
-}
-*/
-
-LCG::~LCG() {}
 
 int LCG::RandomNumber() {
     seed = FirstTerm() % modulus;

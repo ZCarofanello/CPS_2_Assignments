@@ -10,9 +10,10 @@
 
 class LCG {
 public:
-    LCG(int Seed, int multiplier, int increment, int modulus);
-    //LCG(int Seed, int multiplier);
+    LCG();
+    //LCG();
     ~LCG();
+    void SetValues(int Seed, int multiplier, int increment, int modulus);
     int RandomNumber();
 
 private:
